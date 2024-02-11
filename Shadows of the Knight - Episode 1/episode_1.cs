@@ -20,17 +20,18 @@ class Player
         building.Width = int.Parse(inputs[0]) - 1; // width of the building, zero-index
         building.Height = int.Parse(inputs[1]) - 1; // height of the building, zero-index
         building.MaxTurns = int.Parse(Console.ReadLine()); // maximum number of turns before game over.
-        
+
         // Define starting position
         inputs = Console.ReadLine().Split(' ');
-        var startingPosition = new Position();
-        startingPosition.X0 = int.Parse(inputs[0]);
-        startingPosition.Y0 = int.Parse(inputs[1]);
+        var position = new Position();
+        position.X = int.Parse(inputs[0]);
+        position.Y = int.Parse(inputs[1]);
 
         // game loop
         while (true)
         {
             string clue = Console.ReadLine(); // the direction of the bombs from batman's current location (U, UR, R, DR, D, DL, L or UL)
+            Console.Error.WriteLine(clue);
 
             switch (clue) {
                 case Clue.COLDER:
@@ -41,12 +42,12 @@ class Player
                     break;
                 default:
                     // Unknown - first turn
+                    (position.X0 == building.Width) ? JumpLeft(position, building) : JumpRight(position, building);
                     break;
             }
 
-
             // the location of the next window Batman should jump to.
-            Console.WriteLine("0 0");
+            Console.WriteLine($"{position.X} {position.Y}");
         }
     }
 
@@ -58,6 +59,7 @@ class Player
     static void JumpDown(Position position, Building building)
     {
         
+
     }
 
     static void JumpLeft(Position position, Building building)
@@ -67,7 +69,13 @@ class Player
 
     static void JumpRight(Position position, Building building)
     {
-        
+        // reset previous turn variables
+        position.X0 = position.X;
+        position.Y0 = position.Y;
+
+        // set new current position
+        var mid = (int)Math.Ceiling((decimal)position.X + building.Width / 2);
+        position.X = mid;
     }
 }
 
