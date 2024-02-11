@@ -5,10 +5,6 @@ using System.Text;
 using System.Collections;
 using System.Collections.Generic;
 
-/**
- * Auto-generated code below aims at helping you parse
- * the standard input according to the problem statement.
- **/
 class Player
 {
     static void Main(string[] args)
@@ -34,11 +30,11 @@ class Player
             Console.Error.WriteLine(clue);
 
             switch (clue) {
-                case Clue.Up:
+                case Clue.WARMER:
                     break;
-                case Clue.UpRight:
+                case Clue.COLDER:
                     break;
-                case Clue.Right:
+                case Clue.SAME:
                     break;
                 default:
                     // Unknown - first turn
@@ -95,16 +91,8 @@ class Position
 }
 
 struct Clue {
-    public const Up = "U";
-    public const UpRight = "UR";
-    public const Right = "R";
-    public const DownRight = "DR";
-    public const Down = "D";
-    public const UpLeft = "UL";
-
-    // Episode 2
-    // public const WARMER = "WARMER";
-    // public const COLER = "COLDER";
-    // public const SAME = "SAME";
-    // public const UKNOWN = "UNKNOWN";
+    public const WARMER = "WARMER";
+    public const COLER = "COLDER";
+    public const SAME = "SAME";
+    public const UKNOWN = "UNKNOWN";
 }
