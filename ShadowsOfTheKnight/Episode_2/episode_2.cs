@@ -96,56 +96,63 @@ class Player
     {
         switch (previousClue) {
             case Clue.WARMER:
+                var xDiff = Math.Abs(position.X - position.X0);
+                var yDiff = Math.Abs(position.Y - position.Y0);
+                if (xDiff == 1)
+                {
+                    // last x position was correct, so jump vertically
+                    position.X = position.X0;
+                    JumpVertically(position);
+                }
+                else if (xDiff > 1)
+                {
+                    // difference is greater than 1, so retry horizontal jump
+                    RetryHorizontalJump(position);
+                }
+                else if (yDiff == 1)
+                {
+                    // last y position was correct, so jump horizontally
+                    JumpHorizontally(position, building);
+                }
+                else if (yDiff > 1)
+                {
+                    // difference is greater than 1, so retry vertical jump
+                    RetryVerticalJump(position);
+                }
+                else
+                {
+                    Console.Error.WriteLine(@$"Impossible scneario:
+                        X: {position.X}, X0: {position.X0}
+                        Y: {position.Y}, Y0: {position.Y0}");
+                    throw;
+                }
                 break;
             case Clue.COLDER:
+                var xDiff = Math.Abs(position.X - position.X0);
+                var yDiff = Math.Abs(position.Y - position.Y0);
+                if (xDiff > 0)
+                {
+                    // last jump was horizontal
+                }
+                else if (yDiff > 0)
+                {
+                    // last jump was vertical
+                }
+                else
+                {
+                    // this scenarion should never happen
+                    throw;
+                }
                 break;
             case Clue.SAME:
+                // this scenario should never happen
+                throw;
                 break;
             case Clue.UKNOWN:
                 // last x position was correct, so jump vertically
                 position.X = position.X0;
                 JumpVertically(position);
                 break;
-        }
-        if (previousClue == Clue.WARMER)
-        {
-            var xDiff = Math.Abs(position.X - position.X0);
-            var yDiff = Math.Abs(position.Y - position.Y0);
-            if (xDiff == 1)
-            {
-                // last x position was correct, so jump vertically
-                position.X = position.X0;
-                JumpVertically(position);
-            }
-            else if (xDiff > 1)
-            {
-                // difference is greater than 1, so retry horizontal jump
-                RetryHorizontalJump(position);
-            }
-            else if (yDiff == 1)
-            {
-                // last y position was correct, so jump horizontally
-            }
-            else if (yDiff > 1)
-            {
-                // difference is greater than 1, so retry vertical jump
-                RetryVerticalJump(position);
-            }
-            else
-            {
-                Console.Error.WriteLine(@$"Impossible scneario:
-                    X: {position.X}, X0: {position.X0}
-                    Y: {position.Y}, Y0: {position.Y0}");
-                throw;
-            }
-        }
-        else if(previousClue == Clue.COLDER)
-        {
-
-        }
-        else if()
-        {
-
         }
     }
 
