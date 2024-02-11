@@ -11,6 +11,7 @@ class Player
     {
         // Define building parameters
         string[] inputs;
+        string previousClue = string.Empty;
         inputs = Console.ReadLine().Split(' ');
         var building = new Building();
         building.Width = int.Parse(inputs[0]) - 1; // width of the building, zero-index
@@ -31,10 +32,12 @@ class Player
 
             switch (clue) {
                 case Clue.WARMER:
+                    OnWarmer(position, building, previousClue);
                     break;
                 case Clue.COLDER:
                     break;
                 case Clue.SAME:
+                    OnSame(position, building);
                     break;
                 default:
                     // Unknown - first turn
@@ -42,25 +45,70 @@ class Player
                     break;
             }
 
+            previousClue = clue;
+
             // the location of the next window Batman should jump to.
             Console.WriteLine($"{position.X} {position.Y}");
         }
     }
 
-    static void JumUp(Position position, Building building)
+    static void OnWarmer(Position position, Building building, string previousClue)
+    {
+        if (position.X - position.X0 > 0)
+        {
+            // last jump was right
+            if (previousClue == Clue.WARMER)
+            {
+
+            }
+        }
+        else
+        {
+
+        }
+    }
+
+    static void OnSame(Position position, Building building)
     {
 
+    }
+
+    static void OnColder(Position position, Building building)
+    {
+
+    }
+
+    static void JumUp(Position position, Building building)
+    {
+        // reset previous turn variables
+        position.X0 = position.X;
+        position.Y0 = position.Y;
+
+        // set new current position
+        var mid = (int)Math.Ceiling((decimal)position.Y / 2);
+        position.Y = mid;
     }
 
     static void JumpDown(Position position, Building building)
     {
-        
+        // reset previous turn variables
+        position.X0 = position.X;
+        position.Y0 = position.Y;
 
+        // set new current position
+        var mid = (int)Math.Ceiling((decimal)position.Y + building.Height / 2);
+        position.Y = mid;
     }
 
-    static void JumpLeft(Position position, Building building)
+    static void JumpLeft(Position position)
     {
-        
+        // reset previous turn variables
+        position.X0 = position.X;
+        position.Y0 = position.Y;
+
+        // set new current position
+        var mid = (int)Math.Ceiling((decimal)position.X / 2);
+        position.X = mid;
     }
 
     static void JumpRight(Position position, Building building)
