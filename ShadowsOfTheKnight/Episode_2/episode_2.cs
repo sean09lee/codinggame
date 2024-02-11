@@ -35,6 +35,7 @@ class Player
                     OnWarmer(position, building, previousClue);
                     break;
                 case Clue.COLDER:
+                    OnColder(position, building);
                     break;
                 case Clue.SAME:
                     OnSame(position, building);
@@ -54,17 +55,29 @@ class Player
 
     static void OnWarmer(Position position, Building building, string previousClue)
     {
-        if (position.X - position.X0 > 0)
+        if (position.X == position.X0)
         {
-            // last jump was right
-            if (previousClue == Clue.WARMER)
-            {
-
-            }
+            // last jump was vertical, so continue vertically jumping
+            JumpVertically(position, building);
         }
         else
         {
-
+            // last jump was horizontal, so continue jumping horizontally 
+            if (position.X == building.Width || position.X == 0)
+            {
+                // we have reached an edge, so start jumping vertically
+                JumpVertically(position, building);
+            }
+            else if (position.X > position.X0)
+            {
+                // continue jumping right
+                JumpRight(position, building);
+            }
+            else
+            {
+                // continue jumping left
+                JumpLeft(position);
+            }
         }
     }
 
@@ -75,10 +88,47 @@ class Player
 
     static void OnColder(Position position, Building building)
     {
+        if (position.X - position.X0 > 0)
+        {
+            // last jump was right
+            if (previousClue == Clue.WARMER)
+            {
 
+            }
+        }
+        else if (position.X0 - position.X > 0)
+        {
+            // last jump was left
+            if (previousClue == Clue.WARMER)
+            {
+                
+            }
+        }
+        else if (position.Y - position.Y0 > 0)
+        {
+            // last jump was down
+        }
+        else
+        {
+            // last jump was up
+        }
     }
 
-    static void JumUp(Position position, Building building)
+    static void JumpVertically(Position position, Building building)
+    {
+        if (position.Y == 0 || position.Y < building.Height)
+        {
+            // we are either at the top floor OR we have not hit the bottom floor, so jump down
+            JumpDown(position, building);
+        }
+        else
+        {
+            // we are not at the bottom floor, so jump up
+            JumpUp(position);
+        }
+    }
+
+    static void JumpUp(Position position)
     {
         // reset previous turn variables
         position.X0 = position.X;
